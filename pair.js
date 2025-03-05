@@ -18,9 +18,9 @@ let router = express.Router();
 
 // ✅ MESSAGE TEMPLATE
 const MESSAGE = `
-**━━━━━━━━━━━━━━━━━━━━━━━*  
+━━━━━━━━━━━━━━━━━━━━━━━  
 🌺💖 *PINk QUEEN MD - WhatsApp BOT* 💖🌺  
-*━━━━━━━━━━━━━━━━━━━━━━━*  
+━━━━━━━━━━━━━━━━━━━━━━━  
 
 🎀✨ *👑 PINk QUEEN MD CONNECTED SUCCESSFULLY!* ✅💖  
 
@@ -68,7 +68,7 @@ async function startWhatsAppConnection(number, res) {
 
             if (connection === "open") {
                 try {
-                    await delay(10000);
+                    await delay(5000);
                     if (fs.existsSync('./auth_info_baileys/creds.json')) {
                         const auth_path = './auth_info_baileys/';
                         let user = Smd.user.id;
