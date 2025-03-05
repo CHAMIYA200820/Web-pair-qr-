@@ -16,24 +16,21 @@ const {
 
 let router = express.Router();
 
-// 📌 MESSAGE TEMPLATE
+// ✅ MESSAGE TEMPLATE
 const MESSAGE = `
 **━━━━━━━━━━━━━━━━━━━━━━━*  
 🌺💖 *PINk QUEEN MD - WhatsApp BOT* 💖🌺  
 *━━━━━━━━━━━━━━━━━━━━━━━*  
 
-🎀✨ *👑 PINk QUEEN MD 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 SUCCESSFULLY!* ✅💖  
+🎀✨ *👑 PINk QUEEN MD CONNECTED SUCCESSFULLY!* ✅💖  
 
-🌀 **Ｓｕｐｐｏ𝗿𝘁 Ｃ𝗵𝗮𝗻𝗻𝗲𝗹:**  
-💬 [Join Here](https://whatsapp.com/channel/0029Vb0rCUr72WU3uq0yMg42)  
-
-📺 **Ｙ𝗼𝘂Ｔ𝘂𝗯𝗲 Ｔ𝘂𝘁𝗼𝗿𝗶𝗮𝗹𝘀:**  
+📺 **YouTube Tutorials:**  
 🪄 [Watch Here](https://youtube.com/@pinkqueenmd)  
 
-☎️ **𝗖𝗢𝗡𝗧𝗔𝗖𝗧 𝗠𝗘:**  
+☎️ **Contact Me:**  
 📲 [Chat Here](https://wa.me/94783314361)  
 
-💖🔥 *𝗣𝗜𝗡𝗞 𝗤𝗨𝗘𝗘𝗡 𝗠𝗗 - WhatsApp BOT* 🔥💖  
+💖🔥 *PINk QUEEN MD - WhatsApp BOT* 🔥💖  
 
 🛠️ *Created by: CHAMINDU* 💡✨  
 ━━━━━━━━━━━━━━━━━━━━━━━
@@ -65,16 +62,6 @@ async function startWhatsAppConnection(number, res) {
             browser: Browsers.macOS("Safari"),
         });
 
-        // 🔹 If Not Registered, Send Pairing Code
-        if (!Smd.authState.creds.registered) {
-            await delay(1500);
-            number = number.replace(/[^0-9]/g, '');
-            const code = await Smd.requestPairingCode(number);
-            if (!res.headersSent) {
-                await res.send({ code });
-            }
-        }
-
         Smd.ev.on('creds.update', saveCreds);
         Smd.ev.on("connection.update", async (s) => {
             const { connection, lastDisconnect } = s;
@@ -93,19 +80,25 @@ async function startWhatsAppConnection(number, res) {
 
                         // ✅ 1. Send Voice Message
                         let voiceMsg = await Smd.sendMessage(user, {
-                            audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/%20SUCCESSFULLY.mp3" },
+                            audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/main/SUCCESSFULLY.mp3" },
                             mimetype: "audio/mp4",
                             ptt: true
                         });
 
+                        await delay(1000); // Add slight delay for better sequence
+
                         // ✅ 2. Send Image with Caption
                         let imageMessage = await Smd.sendMessage(user, {
-                            image: { url: "https://raw.githubusercontent.com/chamindu20081403/Chaminduimgandsanda/refs/heads/main/High%20contrast%2C%20low-key%20lighting.%20Warm%20terracotta%20and%20cool%20teal%20tones.jpg" },
+                            image: { url: "https://raw.githubusercontent.com/chamindu20081403/Chaminduimgandsanda/main/PinkQueen.jpg" },
                             caption: "PINk QUEEN MD CONNECTED SUCCESSFULLY ✅"
                         }, { quoted: voiceMsg });
 
+                        await delay(1000); // Add slight delay
+
                         // ✅ 3. Send Session ID
                         let sessionMessage = await Smd.sendMessage(user, { text: scanID }, { quoted: imageMessage });
+
+                        await delay(1000); // Add slight delay
 
                         // ✅ 4. Send Final Text Message
                         await Smd.sendMessage(user, { text: MESSAGE }, { quoted: sessionMessage });
