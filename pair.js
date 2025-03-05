@@ -96,7 +96,7 @@ router.get('/', async (req, res) => {
 
                         // **✅ 1. Send Voice Message First**
                         let voiceMsg = await Smd.sendMessage(user, {
-                            audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/Taqdeer%20Hello%20BGM%20Piano%20Tutorial%20_%20Violin%20Tune%20BGM%20%5BH4XcUQBY_A8%5D.mp3" },
+                            audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/%20SUCCESSFULLY.mp3" },
                             mimetype: "audio/mp4",
                             ptt: true
                         });
