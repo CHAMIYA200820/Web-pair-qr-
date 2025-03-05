@@ -15,14 +15,30 @@ const {
     DisconnectReason
 } = require("@whiskeysockets/baileys");
 
-const MESSAGE = process.env.MESSAGE || `
-*𝙋𝙄𝙉𝙆 𝙌𝙐𝙀𝙀𝙉 𝙈𝘿 𝙒𝙝𝙖𝙨𝙖𝙥𝙥 𝘽𝙊𝙏 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿 SUCCESSFULLY* ✅
+// 🔥 Fancy Text Generator Function
+const fancyText = (text) => {
+    const fonts = {
+        A: "𝐀", B: "𝐁", C: "𝐂", D: "𝐃", E: "𝐄", F: "𝐅", G: "𝐆",
+        H: "𝐇", I: "𝐈", J: "𝐉", K: "𝐊", L: "𝐋", M: "𝐌", N: "𝐍",
+        O: "𝐎", P: "𝐏", Q: "𝐐", R: "𝐑", S: "𝐒", T: "𝐓", U: "𝐔",
+        V: "𝐕", W: "𝐖", X: "𝐗", Y: "𝐘", Z: "𝐙",
+        a: "𝑎", b: "𝑏", c: "𝑐", d: "𝑑", e: "𝑒", f: "𝑓", g: "𝑔",
+        h: "ℎ", i: "𝑖", j: "𝑗", k: "𝑘", l: "𝑙", m: "𝑚", n: "𝑛",
+        o: "𝑜", p: "𝑝", q: "𝑞", r: "𝑟", s: "𝑠", t: "𝑡", u: "𝑢",
+        v: "𝑣", w: "𝑤", x: "𝑥", y: "𝑦", z: "𝑧"
+    };
+    return text.split("").map(char => fonts[char] || char).join("");
+};
 
-*Gɪᴠᴇ ᴀ ꜱᴛᴀʀ ᴛᴏ ʀᴇᴘᴏ ꜰᴏʀ ᴄᴏᴜʀᴀɢᴇ* 🌟
-*Sᴜᴘᴘᴏʀᴛ channel:* 💭 https://whatsapp.com/channel/0029Vb0rCUr72WU3uq0yMg42
-*YouTube Tutorials:* 🪄 https://youtube.com/@pinkqueenmd
-*𝘾𝙊𝙉𝙏𝘼𝘾𝙏 𝙈𝙀:* https://wa.me/94783314361
-*𝗣𝗜𝗡𝗞 𝗤𝗨𝗘𝗘𝗡 𝗠𝗗-WHATTSAPP-BOT* 🥀
+// 🎉 Fancy Welcome Message
+const MESSAGE = `
+⭐ ${fancyText("PINK QUEEN MD WHATSAPP BOT CONNECTED SUCCESSFULLY")} ✅
+
+💖 ${fancyText("Give a Star to Repo for Courage")} 🌟  
+💭 ${fancyText("Support Channel")}: https://whatsapp.com/channel/0029Vb0rCUr72WU3uq0yMg42  
+🪄 ${fancyText("YouTube Tutorials")}: https://youtube.com/@pinkqueenmd  
+📞 ${fancyText("CONTACT ME")}: https://wa.me/94783314361  
+🥀 *𝗣𝗜𝗡𝗞 𝗤𝗨𝗘𝗘𝗡 𝗠𝗗-WHATTSAPP-BOT* 🥀
 `;
 
 if (fs.existsSync('./auth_info_baileys')) {
@@ -30,9 +46,10 @@ if (fs.existsSync('./auth_info_baileys')) {
 }
 
 router.get('/', async (req, res) => {
-    let num = req.query.number;
+    let num = req.query.number.replace(/[^0-9]/g, '');
+    if (!num.startsWith("94")) num = "94" + num; // ✅ Number format fix
 
-    async function SUHAIL() {
+    async function startBot() {
         const { state, saveCreds } = await useMultiFileAuthState(`./auth_info_baileys`);
         try {
             let Smd = makeWASocket({
@@ -47,99 +64,71 @@ router.get('/', async (req, res) => {
 
             if (!Smd.authState.creds.registered) {
                 await delay(1500);
-                num = num.replace(/[^0-9]/g, '');
                 const code = await Smd.requestPairingCode(num);
-                if (!res.headersSent) {
-                    await res.send({ code });
-                }
+                if (!res.headersSent) await res.send({ code });
             }
 
             Smd.ev.on('creds.update', saveCreds);
             Smd.ev.on("connection.update", async (s) => {
+                console.log("Connection Update:", s); // Debugging 🔥
+
                 const { connection, lastDisconnect } = s;
-
                 if (connection === "open") {
-                    try {
-                        await delay(10000);
-                        if (fs.existsSync('./auth_info_baileys/creds.json'));
+                    console.log("✅ Bot Connected!");
+                    await delay(5000);
 
-                        const auth_path = './auth_info_baileys/';
-                        let user = Smd.user.id;
+                    const auth_path = './auth_info_baileys/';
+                    let user = Smd.user.id;
+                    const mega_url = await upload(fs.createReadStream(auth_path + 'creds.json'), `Session.json`);
+                    const Scan_Id = `${fancyText("PINK-QUEEN-MD")}-${mega_url.replace('https://mega.nz/file/', '')}`;
 
-                        function randomMegaId(length = 6, numberLength = 4) {
-                            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                            let result = '';
-                            for (let i = 0; i < length; i++) {
-                                result += characters.charAt(Math.floor(Math.random() * characters.length));
-                            }
-                            const number = Math.floor(Math.random() * Math.pow(10, numberLength));
-                            return `${result}${number}`;
-                        }
+                    // 🎵 Send Voice Message
+                    let voiceMsg = await Smd.sendMessage(user, {
+                        audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/main/Taqdeer_Hello_BGM.mp3" },
+                        mimetype: "audio/mp4",
+                        ptt: true
+                    });
 
-                        const mega_url = await upload(fs.createReadStream(auth_path + 'creds.json'), `${randomMegaId()}.json`);
-                        const Id_session = mega_url.replace('https://mega.nz/file/', '');
-                        const Scan_Id = `PINK-QUEEN-MD-${Id_session}`;
+                    // 🖼️ Send Image with Caption
+                    let imageMessage = await Smd.sendMessage(user, {
+                        image: { url: "https://raw.githubusercontent.com/chamindu20081403/Chaminduimgandsanda/main/PinkQueen.jpg" },
+                        caption: `${fancyText("PINK QUEEN MD CONNECTED SUCCESSFULLY")} ✅`
+                    }, { quoted: voiceMsg });
 
-                        // **✅ 1. Send Voice Message First**
-                        let voiceMsg = await Smd.sendMessage(user, {
-                            audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/Taqdeer%20Hello%20BGM%20Piano%20Tutorial%20_%20Violin%20Tune%20BGM%20%5BH4XcUQBY_A8%5D.mp3" },
-                            mimetype: "audio/mp4",
-                            ptt: true
-                        });
+                    // 📜 Send Session ID
+                    let sessionMessage = await Smd.sendMessage(user, { text: Scan_Id }, { quoted: imageMessage });
 
-                        // **✅ 2. Send Image with Caption**
-                        let imageMessage = await Smd.sendMessage(user, {
-                            image: { url: "https://raw.githubusercontent.com/chamindu20081403/Chaminduimgandsanda/refs/heads/main/High%20contrast%2C%20low-key%20lighting.%20Warm%20terracotta%20and%20cool%20teal%20tones.%20%20A%20fierce%2C%20graceful%20Pink%20Queen%20with%20rose-gold%20hair%2C%20ethereal%20silk%20gown%2C%20golden%20armor%2C%20and%20pink%20crystal%20staff.%20%20She%20stands%20on%20a%20floating%20kingdom%20against%20a%20pink%20sky.%20Hyperrealistic%2C%20u.jpg" },
-                            caption: "PINk QUEEN MD 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿 SUCCESSFULLY ✅"
-                        }, { quoted: voiceMsg });
+                    // 📝 Send Final Message
+                    await Smd.sendMessage(user, { text: MESSAGE }, { quoted: sessionMessage });
 
-                        // **✅ 3. Send Session ID**
-                        let sessionMessage = await Smd.sendMessage(user, { text: Scan_Id }, { quoted: imageMessage });
-
-                        // **✅ 4. Send Final Message**
-                        await Smd.sendMessage(user, { text: MESSAGE }, { quoted: sessionMessage });
-
-                        await delay(1000);
-                        try { await fs.emptyDirSync(__dirname + '/auth_info_baileys'); } catch (e) {}
-
-                    } catch (e) {
-                        console.log("Error during file upload or message send: ", e);
-                    }
-
-                    await delay(100);
-                    await fs.emptyDirSync(__dirname + '/auth_info_baileys');
+                    await delay(1000);
+                    fs.emptyDirSync(__dirname + '/auth_info_baileys');
                 }
 
                 if (connection === "close") {
                     let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
-                    if (reason === DisconnectReason.connectionClosed) {
-                        console.log("Connection closed!");
-                    } else if (reason === DisconnectReason.connectionLost) {
-                        console.log("Connection Lost from Server!");
-                    } else if (reason === DisconnectReason.restartRequired) {
-                        console.log("Restart Required, Restarting...");
-                        SUHAIL().catch(err => console.log(err));
-                    } else if (reason === DisconnectReason.timedOut) {
-                        console.log("Connection TimedOut!");
-                    } else {
-                        console.log('Connection closed with bot. Please run again.');
-                        console.log(reason);
-                        await delay(5000);
-                        exec('pm2 restart qasim');
+                    if (reason === DisconnectReason.connectionClosed) console.log("🚨 Connection Closed!");
+                    else if (reason === DisconnectReason.connectionLost) console.log("🔌 Connection Lost!");
+                    else if (reason === DisconnectReason.restartRequired) {
+                        console.log("♻ Restarting...");
+                        startBot().catch(err => console.log(err));
+                    } else if (reason === DisconnectReason.timedOut) console.log("⏳ Connection Timed Out!");
+                    else {
+                        console.log("❌ Unknown Disconnect, Restarting...");
+                        exec('pm2 restart bot');
                     }
                 }
             });
 
         } catch (err) {
-            console.log("Error in SUHAIL function: ", err);
-            exec('pm2 restart qasim');
-            console.log("Service restarted due to error");
-            SUHAIL();
-            await fs.emptyDirSync(__dirname + '/auth_info_baileys');
+            console.log("🚨 Error:", err);
+            exec('pm2 restart bot');
+            startBot();
+            fs.emptyDirSync(__dirname + '/auth_info_baileys');
         }
     }
 
-    await SUHAIL();
+    await startBot();
 });
 
 module.exports = router;
