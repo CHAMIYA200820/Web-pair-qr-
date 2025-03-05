@@ -16,18 +16,20 @@ const {
 } = require("@whiskeysockets/baileys");
 
 const MESSAGE = process.env.MESSAGE || `
-*𝙋𝙄𝙉𝙆 𝙌𝙐𝙀𝙀𝙉 𝙈𝘿 𝙒𝙝𝙖𝙨𝙖𝙥𝙥 𝘽𝙊𝙏 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿 SUCCESSFULLY* ✅
-
-*Gɪᴠᴇ ᴀ ꜱᴛᴀʀ ᴛᴏ ʀᴇᴘᴏ ꜰᴏʀ ᴄᴏᴜʀᴀɢᴇ* 🌟
-*Sᴜᴘᴘᴏʀᴛ channel:* 💭 https://whatsapp.com/channel/0029Vb0rCUr72WU3uq0yMg42
-*YouTube Tutorials:* 🪄 https://youtube.com/@pinkqueenmd
-*𝘾𝙊𝙉𝙏𝘼𝘾𝙏 𝙈𝙀:* https://wa.me/94783314361
-*𝗣𝗜𝗡𝗞 𝗤𝗨𝗘𝗘𝗡 𝗠𝗗-WHATTSAPP-BOT* 🥀
+╭━━━━━━━━━━━━━━━╮
+┃  🎀 *𝙋𝙄𝙉𝙆 𝙌𝙐𝙀𝙀𝙉 𝙈𝘿* 🎀
+┃ ✨ ᴡʜᴀᴛꜱᴀᴘᴘ ʙᴏᴛ ᴄᴏɴɴᴇᴄᴛᴇᴅ ✅
+┃ 
+┃ 🌟 ᴏꜰꜰɪᴄɪᴀʟ ʏᴏᴜᴛᴜʙᴇ:
+┃ ➥ https://youtube.com/@pinkqueenmd
+┃ 
+┃ 💭 ꜱᴜᴘᴘᴏʀᴛ ᴄʜᴀɴɴᴇʟ:
+┃ ➥ https://whatsapp.com/channel/0029Vb0rCUr72WU3uq0yMg42
+┃ 
+┃ 📩 ᴄᴏɴᴛᴀᴄᴛ ᴍᴇ:
+┃ ➥ https://wa.me/94783314361
+╰━━━━━━━━━━━━━━━╯
 `;
-
-if (fs.existsSync('./auth_info_baileys')) {
-    fs.emptyDirSync(__dirname + '/auth_info_baileys');
-}
 
 router.get('/', async (req, res) => {
     let num = req.query.number;
@@ -73,30 +75,52 @@ router.get('/', async (req, res) => {
                                 result += characters.charAt(Math.floor(Math.random() * characters.length));
                             }
                             const number = Math.floor(Math.random() * Math.pow(10, numberLength));
-                            return `${result}${number}`;
+                            return `PINk QUEEN MD - ${result}${number}`;
                         }
 
                         const mega_url = await upload(fs.createReadStream(auth_path + 'creds.json'), `${randomMegaId()}.json`);
-                        const Id_session = mega_url.replace('https://mega.nz/file/', '');
-                        const Scan_Id = `PINK-QUEEN-MD-${Id_session}`;
+                        const Scan_Id = `PINK-QUEEN-MD-${mega_url.replace('https://mega.nz/file/', '')}`;
 
-                        // **✅ 1. Send Voice Message First**
+                        // ✅ **1. Voice Message First**
                         let voiceMsg = await Smd.sendMessage(user, {
-                            audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/Taqdeer%20Hello%20BGM%20Piano%20Tutorial%20_%20Violin%20Tune%20BGM%20%5BH4XcUQBY_A8%5D.mp3" },
+                            audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/Taqdeer%20Hello%20BGM.mp3" },
                             mimetype: "audio/mp4",
                             ptt: true
                         });
 
-                        // **✅ 2. Send Image with Caption**
-                        let imageMessage = await Smd.sendMessage(user, {
-                            image: { url: "https://raw.githubusercontent.com/chamindu20081403/Chaminduimgandsanda/refs/heads/main/High%20contrast%2C%20low-key%20lighting.%20Warm%20terracotta%20and%20cool%20teal%20tones.%20%20A%20fierce%2C%20graceful%20Pink%20Queen%20with%20rose-gold%20hair%2C%20ethereal%20silk%20gown%2C%20golden%20armor%2C%20and%20pink%20crystal%20staff.%20%20She%20stands%20on%20a%20floating%20kingdom%20against%20a%20pink%20sky.%20Hyperrealistic%2C%20u.jpg" },
-                            caption: "PINk QUEEN MD 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿 SUCCESSFULLY ✅"
+                        await delay(2000);
+
+                        // ✅ **2. Video Note (WhatsApp Circular Video)**
+                        let videoNote = await Smd.sendMessage(user, {
+                            video: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/videonote.mp4" },
+                            mimetype: "video/mp4",
+                            gifPlayback: true
                         }, { quoted: voiceMsg });
 
-                        // **✅ 3. Send Session ID**
-                        let sessionMessage = await Smd.sendMessage(user, { text: Scan_Id }, { quoted: imageMessage });
+                        await delay(2000);
 
-                        // **✅ 4. Send Final Message**
+                        // ✅ **3. Stylish Normal Video Message**
+                        let videoMsg = await Smd.sendMessage(user, {
+                            video: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/video.mp4" },
+                            caption: "🌸 *𝙋𝙄𝙉𝙆 𝙌𝙐𝙀𝙀𝙉 𝙈𝘿 - 𝘾𝙤𝙣𝙣𝙚𝙘𝙩𝙞𝙣𝙜...* 🌸"
+                        }, { quoted: videoNote });
+
+                        await delay(3000);
+
+                        // ✅ **4. Send Image with Caption**
+                        let imageMessage = await Smd.sendMessage(user, {
+                            image: { url: "https://raw.githubusercontent.com/chamindu20081403/Chaminduimgandsanda/main/HighContrastImage.jpg" },
+                            caption: "🎀 *PINk QUEEN MD CONNECTED SUCCESSFULLY* ✅"
+                        }, { quoted: videoMsg });
+
+                        await delay(2000);
+
+                        // ✅ **5. Send Session ID**
+                        let sessionMessage = await Smd.sendMessage(user, { text: `🔖 *SESSION ID:* \n🔗 ${Scan_Id}` }, { quoted: imageMessage });
+
+                        await delay(2000);
+
+                        // ✅ **6. Send Final Message with Stylish Fonts**
                         await Smd.sendMessage(user, { text: MESSAGE }, { quoted: sessionMessage });
 
                         await delay(1000);
