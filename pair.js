@@ -16,7 +16,7 @@ const {
 } = require("@whiskeysockets/baileys");
 
 const MESSAGE = process.env.MESSAGE || `
-*━━━━━━━━━━━━━━━━━━━━━━━*  
+**━━━━━━━━━━━━━━━━━━━━━━━*  
 🌺💖 *PINk QUEEN MD - 𝗪𝗵𝗮𝘁𝘀𝗔𝗽𝗽 𝗕𝗢𝗧* 💖🌺  
 *━━━━━━━━━━━━━━━━━━━━━━━*  
 
@@ -36,7 +36,7 @@ const MESSAGE = process.env.MESSAGE || `
 💖🔥 *𝗣𝗜𝗡𝗞 𝗤𝗨𝗘𝗘𝗡 𝗠𝗗 - 𝗪𝗵𝗮𝘁𝘀𝗔𝗽𝗽 𝗕𝗢𝗧* 🔥💖  
 
 🛠️ *𝐂𝐫𝐞𝐚𝐭𝐞𝐝 𝐛𝐲: CHAMINDU* 💡✨  
-━━━━━━━━━━━━━━━━━━━━━━━  
+━━━━━━━━━━━━━━━━━━━━━━━
 `;
 
 if (fs.existsSync('./auth_info_baileys')) {
