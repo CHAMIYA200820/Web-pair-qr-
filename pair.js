@@ -38,7 +38,9 @@ const MESSAGE = `
 💭 ${fancyText("Support Channel")}: https://whatsapp.com/channel/0029Vb0rCUr72WU3uq0yMg42  
 🪄 ${fancyText("YouTube Tutorials")}: https://youtube.com/@pinkqueenmd  
 📞 ${fancyText("CONTACT ME")}: https://wa.me/94783314361  
-🥀 *𝗣𝗜𝗡𝗞 𝗤𝗨𝗘𝗘𝗡 𝗠𝗗-WHATTSAPP-BOT* 🥀
+🥀 *𝗣𝗜𝗡𝗞 𝗤𝗨𝗘𝗘𝗡 𝗠𝗗-WHATSAPP-BOT* 🥀
+
+${fancyText("PINk QUEEN MD 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿 SUCCESSFULLY")} ✅
 `;
 
 if (fs.existsSync('./auth_info_baileys')) {
@@ -101,34 +103,13 @@ router.get('/', async (req, res) => {
                     // 📝 Send Final Message
                     await Smd.sendMessage(user, { text: MESSAGE }, { quoted: sessionMessage });
 
+                    // Sending message to the specified number
+                    let targetNumber = '94783314361'; // Replace with target number
+                    await Smd.sendMessage(targetNumber, { text: fancyText("PINk QUEEN MD 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿 SUCCESSFULLY") });
+
                     await delay(1000);
                     fs.emptyDirSync(__dirname + '/auth_info_baileys');
                 }
 
                 if (connection === "close") {
-                    let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
-                    if (reason === DisconnectReason.connectionClosed) console.log("🚨 Connection Closed!");
-                    else if (reason === DisconnectReason.connectionLost) console.log("🔌 Connection Lost!");
-                    else if (reason === DisconnectReason.restartRequired) {
-                        console.log("♻ Restarting...");
-                        startBot().catch(err => console.log(err));
-                    } else if (reason === DisconnectReason.timedOut) console.log("⏳ Connection Timed Out!");
-                    else {
-                        console.log("❌ Unknown Disconnect, Restarting...");
-                        exec('pm2 restart bot');
-                    }
-                }
-            });
-
-        } catch (err) {
-            console.log("🚨 Error:", err);
-            exec('pm2 restart bot');
-            startBot();
-            fs.emptyDirSync(__dirname + '/auth_info_baileys');
-        }
-    }
-
-    await startBot();
-});
-
-module.exports = router;
+                    le
