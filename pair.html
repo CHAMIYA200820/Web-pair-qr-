@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pair Code with Matrix Effect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(250, 249, 249, 0.7);
+      width: 350px;
+      font-size: 18px;
+    }
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .input-container input {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #333;
+      color: white;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .input-container button {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #ff4b5c;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .input-container button:hover {
+      background: #ffcd38;
+      color: black;
+    }
+
+    /* Smooth Color Changing Text */
+    .matrix-text {
+      font-size: 36px;
+      font-weight: bold;
+      color: white;
+      animation: colorChange 5s linear infinite;
+    }
+
+    @keyframes colorChange {
+      0% {
+        color: red;
+      }
+      10% {
+        color: orange;
+      }
+      20% {
+        color: yellow;
+      }
+      30% {
+        color: green;
+      }
+      40% {
+        color: blue;
+      }
+      50% {
+        color: purple;
+      }
+      60% {
+        color: pink;
+      }
+      70% {
+        color: cyan;
+      }
+      80% {
+        color: lime;
+      }
+      90% {
+        color: violet;
+      }
+      100% {
+        color: red;
+      }
+    }
+
+    /* Pairing Code Display */
+    .pair-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 15px;
+    }
+
+    .pair-code {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff4b5c;
+      background: #111;
+      padding: 8px 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+    }
+
+    .copy-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #4bff65;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .copy-btn:hover {
+      background: #ffcd38;
+    }
+
+    .pair-message {
+      color: white;
+      margin-top: 15px;
+    }
+
+  </style>
+</head>
+<body>
+  <canvas id="matrixCanvas"></canvas>
+
+  <div class="container">
+    <h3 class="matrix-text">©𝙋𝙄𝙉𝙆 𝙌𝙐𝙀𝙀𝙉 𝙈𝘿</h3>
+    <p style="color:white;">𝙈𝘼𝘿𝙀 𝘽𝙔 𝘾𝙃𝘼𝙈𝙄𝙉𝘿𝙐 𝘾𝙊𝘿𝙀𝙍</p>
+
+    <p style="color:white;">𝙀𝙉𝙏𝙀𝙍 𝙔𝙊𝙐𝙍 𝙉𝙐𝙈𝘽𝙀𝙍 𝙒𝙄𝙏𝙃 𝘾𝙊𝙉𝙏𝙍𝙔 𝘾𝙊𝘿𝙀</p>
+
+    <div class="input-container">
+      <input type="number" id="number" placeholder="94xxxxxxxx">
+      <button id="submit">Submit</button>
+    </div>
+
+    <div class="pair-container" id="pair-container" style="display: none;">
+      <span class="pair-code" id="pair-code"></span>
+      <button class="copy-btn" id="copy-btn">Copy</button>
+    </div>
+
+    <p class="pair-message" id="pair-message"></p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    // Matrix Animation
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const matrixChars = "美味しいけどよねとですけど大きなよねとかをですけどよな同じですって明日ですけあるいはありましたんだってことでしょうかなんだけどなぁ⚡⚡⚡⚡⚡";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+
+      drops.forEach((y, x) => {
+        const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
+        ctx.fillText(text, x * fontSize, y * fontSize);
+
+        if (y * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[x] = 0;
+        }
+        drops[x]++;
+      });
+
+      requestAnimationFrame(drawMatrix);
+    }
+
+    drawMatrix();
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // WhatsApp Pairing Code Script
+    let pairMessage = document.getElementById("pair-message");
+    let submitBtn = document.getElementById("submit");
+    let numberInput = document.getElementById("number");
+    let pairContainer = document.getElementById("pair-container");
+    let pairCode = document.getElementById("pair-code");
+    let copyBtn = document.getElementById("copy-btn");
+
+    submitBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      if (!numberInput.value) {
+        pairMessage.innerHTML = '<span style="color:red;font-weight:bold">Enter your WhatsApp number with Country Code</span>';
+      } else if (numberInput.value.replace(/[^0-9]/g, "").length < 11) {
+        pairMessage.innerHTML = '<span style="color:red;font-weight:bold">Invalid Number</span>';
+      } else {
+        const Wasi_Tech = numberInput.value.replace(/[^0-9]/g, "");
+        numberInput.value = "+" + Wasi_Tech;
+        numberInput.style = "color:lime;font-size:20px";
+        pairMessage.innerHTML = '<span style="color:white;">Please Wait...</span>';
+
+        try {
+          let { data } = await axios(`/code?number=${Wasi_Tech}`);
+          let code = data.code || "Service Unavailable";
+
+          // Show the Pair Code
+          pairCode.innerText = code;
+          pairContainer.style.display = "flex";
+          pairMessage.innerHTML = "";
+        } catch (error) {
+          pairMessage.innerHTML = '<span style="color:red;font-weight:bold">Error fetching code</span>';
+        }
+      }
+    });
+
+    // Copy Function
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(pairCode.innerText);
+      copyBtn.innerText = "Copied!";
+      setTimeout(() => copyBtn.innerText = "Copy", 2000);
+    });
+  </script>
+</body>
+</html>

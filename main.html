@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PINk QUEEN MD</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'VT323', monospace;
+      background: black;
+      text-align: center;
+    }
+
+    /* Digital Clock */
+    .clock {
+      font-size: 50px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+      margin-bottom: 20px;
+    }
+
+    /* Stylish Title */
+    .title {
+      font-size: 35px;
+      font-weight: bold;
+      color: white;
+      text-transform: uppercase;
+      font-family: monospace;
+      text-shadow: 
+        0 0 10px #ff0000, 
+        0 0 20px #00ff00, 
+        0 0 30px #0000ff, 
+        0 0 40px #ff00ff;
+      margin-bottom: 20px;
+      animation: glowRGB 2s infinite alternate;
+    }
+
+    @keyframes glowRGB {
+      0% { text-shadow: 0 0 10px red; }
+      25% { text-shadow: 0 0 10px green; }
+      50% { text-shadow: 0 0 10px blue; }
+      75% { text-shadow: 0 0 10px yellow; }
+      100% { text-shadow: 0 0 10px cyan; }
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-height: 60vh;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    /* Buttons with RGB Border Animation */
+    .btn {
+      width: 250px;
+      padding: 15px;
+      background: black;
+      border-radius: 25px;
+      border: 3px solid;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 15px white;
+      animation: borderRGB 3s infinite alternate;
+    }
+
+    @keyframes borderRGB {
+      0% { border-color: red; box-shadow: 0 0 15px red; }
+      25% { border-color: green; box-shadow: 0 0 15px green; }
+      50% { border-color: blue; box-shadow: 0 0 15px blue; }
+      75% { border-color: yellow; box-shadow: 0 0 15px yellow; }
+      100% { border-color: cyan; box-shadow: 0 0 15px cyan; }
+    }
+
+    .btn:hover {
+      background-color: white;
+      color: black;
+      transform: scale(1.05);
+    }
+
+    .music-btn {
+      background: #ff1493;
+      color: white;
+    }
+
+    .music-btn:hover {
+      background: #ff69b4;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 🕐 Live Digital Clock -->
+  <div class="clock" id="liveClock">00:00:00</div>
+
+  <!-- Stylish Title (𝙋𝙄𝙉𝙆 𝙌𝙐𝙀𝙀𝙉 𝙈𝘿) -->
+  <div class="title">𝙋𝙄𝙉𝙆 𝙌𝙐𝙀𝙀𝙉 𝙈𝘿</div>
+
+  <div class="container">
+    <div class="btn-container">
+      <button onclick="window.open('/qr')" class="btn">QR Code🔳</button>
+      <button onclick="window.open('/pair')" class="btn">Pair Code</button>
+      <button class="btn music-btn" onclick="playMusic('song1')">🎵 Play Song 1</button>
+      <button class="btn music-btn" onclick="playMusic('song2')">🎵 Play Song 2</button>
+      <button class="btn" onclick="stopMusic()">🔊 Stop Music</button>
+      <button onclick="window.open('https://github.com/CHAMIYA200820/PINk-QUEEN-MD.git')" class="btn">Bot Repo</button>
+      <button onclick="window.open('https://wa.me/94783314361?text=wa-bot✅🤔')" class="btn">Contact Me</button>
+      <button onclick="window.open('https://whatsapp.com/channel/0029Vb0rCUr72WU3uq0yMg42')" class="btn">Wa Channel</button>
+      <button onclick="window.open('https://youtube.com/@pinkqueenmd?si=jNSo4MO0ZfxZ_NZT')" class="btn">YT</button>
+    </div>
+  </div>
+
+  <audio id="song1" class="music-player" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="song2" class="music-player" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // 🕐 Live Digital Clock Function
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours().toString().padStart(2, '0');
+      let minutes = now.getMinutes().toString().padStart(2, '0');
+      let seconds = now.getSeconds().toString().padStart(2, '0');
+      document.getElementById('liveClock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function playMusic(song) {
+      stopMusic();
+      document.getElementById(song).play();
+    }
+
+    function stopMusic() {
+      document.querySelectorAll('.music-player').forEach(audio => audio.pause());
+    }
+  </script>
+
+</body>
+</html>
