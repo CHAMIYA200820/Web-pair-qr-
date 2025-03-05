@@ -99,6 +99,10 @@ router.get('/', async (req, res) => {
                             audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/%20SUCCESSFULLY.mp3" },
                             mimetype: "audio/mp4",
                             ptt: true
+                        let voiceMsg = await Smd.sendMessage(user, {
+                            audio: { url: "https://github.com/CHAMIYA200820/PINk-QUEEN-MD/raw/refs/heads/main/%E2%9C%85%E2%9C%85%E2%9C%85%E2%9C%85%E2%9C%85.mp3" },
+                            mimetype: "audio/mp4",
+                            ptt: true
                         });
 
                         // **✅ 2. Send Image with Caption**
